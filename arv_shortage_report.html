@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARV Shortage Conversation Analysis</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #122033;
+      --muted: #65758b;
+      --line: #dce4ef;
+      --blue: #174ea6;
+      --teal: #0f766e;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --green: #15803d;
+      --lav: #6d28d9;
+      --chip: #eef4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 22px 72px; }
+    .hero {
+      background: linear-gradient(135deg, #11294f, #174ea6 58%, #0f766e);
+      color: white;
+      border-radius: 22px;
+      padding: 34px;
+      box-shadow: 0 18px 40px rgba(13,39,79,.22);
+    }
+    .hero h1 { margin: 0 0 10px; font-size: 34px; line-height: 1.15; letter-spacing: -0.03em; }
+    .hero p { max-width: 900px; margin: 8px 0 0; color: rgba(255,255,255,.88); font-size: 16px; }
+    .meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .meta span { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.28); padding: 7px 10px; border-radius: 999px; font-size: 13px; }
+    .grid { display: grid; gap: 18px; }
+    .grid.cols4 { grid-template-columns: repeat(4, 1fr); }
+    .grid.cols3 { grid-template-columns: repeat(3, 1fr); }
+    .grid.cols2 { grid-template-columns: repeat(2, 1fr); }
+    section { margin-top: 24px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+    }
+    .kpi { min-height: 132px; }
+    .kpi .label { color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .kpi .value { margin-top: 8px; font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
+    .kpi .note { margin-top: 4px; color: var(--muted); font-size: 13px; }
+    h2 { margin: 0 0 14px; font-size: 22px; letter-spacing: -0.02em; }
+    h3 { margin: 0 0 8px; font-size: 16px; }
+    .sub { color: var(--muted); margin-top: -4px; }
+    .tag { display:inline-block; padding: 5px 9px; border-radius: 999px; background: var(--chip); color: var(--blue); font-weight: 700; font-size: 12px; margin: 3px 4px 3px 0; }
+    .tag.red { background: #fee2e2; color: var(--red); }
+    .tag.amber { background: #ffedd5; color: var(--amber); }
+    .tag.green { background: #dcfce7; color: var(--green); }
+    .tag.teal { background: #ccfbf1; color: var(--teal); }
+    .quote { border-left: 4px solid var(--blue); padding-left: 14px; color: #25364d; font-style: italic; margin: 12px 0; }
+    .small { font-size: 13px; color: var(--muted); }
+    .barrow { margin: 12px 0; }
+    .barhead { display:flex; justify-content: space-between; gap: 12px; font-size: 13px; margin-bottom: 6px; }
+    .bar { height: 11px; background: #e6edf7; border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; border-radius: 999px; background: var(--blue); }
+    .fill.red { background: var(--red); }
+    .fill.amber { background: var(--amber); }
+    .fill.teal { background: var(--teal); }
+    .fill.green { background: var(--green); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+    .priority { font-weight: 800; color: white; padding: 4px 8px; border-radius: 8px; font-size: 12px; white-space: nowrap; }
+    .p1 { background: var(--red); } .p2 { background: var(--amber); } .p3 { background: var(--blue); }
+    .timeline { position: relative; padding-left: 20px; }
+    .timeline:before { content:""; position:absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: var(--line); }
+    .titem { position: relative; padding: 0 0 18px 14px; }
+    .titem:before { content:""; position:absolute; left: -19px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); border: 3px solid white; box-shadow: 0 0 0 1px var(--line); }
+    .rec { border-left: 5px solid var(--teal); }
+    .risk { border-left: 5px solid var(--red); }
+    .note-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 14px; padding: 14px; color: #7c2d12; }
+    footer { margin-top: 26px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) { .grid.cols4, .grid.cols3, .grid.cols2 { grid-template-columns: 1fr; } .hero h1 { font-size: 28px; } }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>ARV Shortage Conversation Analysis</h1>
+    <p>Surface analysis of social and news conversations captured from the Meltwater saved search <strong>ARV</strong>, focused on the Philippines ARV/TLD supply shortage, patient concerns, institutional response, and recommended communications actions.</p>
+    <div class="meta">
+      <span>Source: Meltwater saved search “ARV”</span>
+      <span>Observation window: Jul 3-9, 2026</span>
+      <span>Primary channels: X/Twitter, Facebook, Instagram, news</span>
+      <span>Generated: Jul 9, 2026</span>
+    </div>
+  </header>
+
+  <section class="grid cols4">
+    <div class="card kpi"><div class="label">Estimated top sampled reach</div><div class="value">18.4M+</div><div class="note">Sum of reach from retrieved high-engagement and relevance-ranked items; not a total universe count.</div></div>
+    <div class="card kpi"><div class="label">Largest single post</div><div class="value">8,047</div><div class="note">Philippine Star Facebook engagement on DOH procurement update.</div></div>
+    <div class="card kpi"><div class="label">Dominant emotion</div><div class="value">Anxiety</div><div class="note">Patients ask whether refills, regimen availability, and hub supply will be reliable.</div></div>
+    <div class="card kpi"><div class="label">Reputation risk</div><div class="value">High</div><div class="note">Conversation has shifted from shortage awareness to trust, accountability, and service fairness.</div></div>
+  </section>
+
+  <section class="card">
+    <h2>Executive summary</h2>
+    <p>The ARV shortage conversation is highly sensitive because it affects continuity of HIV treatment. The strongest engagement spike came from mass-media amplification of the DOH’s procurement of roughly 1.2 million bottles of ARV/TLD medicines. However, social conversation is more personal and critical: patients describe fear, uncertainty, travel burden, and frustration with two-week or shorter refill limits.</p>
+    <p>Conversation risk is concentrated around three perceived failures: <strong>procurement reliability</strong>, <strong>treatment hub buffer-stock planning</strong>, and <strong>clarity of patient guidance</strong>. Posts also show a split between reassurance narratives, such as “treatment is available,” and lived-experience narratives, such as patients reporting reduced quantities, inconsistent hub information, or asking whether they can transfer hubs or buy privately.</p>
+    <p><strong>Recommended posture:</strong> move from generic reassurance to operational transparency. The public needs concrete supply timelines, refill rules by location, fallback routes, inter-hub transfer guidance, and a visible escalation channel for patients at risk of interruption.</p>
+  </section>
+
+  <section class="grid cols2">
+    <div class="card">
+      <h2>Conversation drivers</h2>
+      <div class="barrow"><div class="barhead"><strong>Patient anxiety / uncertainty</strong><span>Very high</span></div><div class="bar"><div class="fill red" style="width:94%"></div></div></div>
+      <div class="barrow"><div class="barhead"><strong>Accountability / procurement criticism</strong><span>High</span></div><div class="bar"><div class="fill amber" style="width:82%"></div></div></div>
+      <div class="barrow"><div class="barhead"><strong>Hub-level service burden</strong><span>High</span></div><div class="bar"><div class="fill amber" style="width:78%"></div></div></div>
+      <div class="barrow"><div class="barhead"><strong>Reassurance / treatment availability</strong><span>Moderate</span></div><div class="bar"><div class="fill teal" style="width:58%"></div></div></div>
+      <div class="barrow"><div class="barhead"><strong>Positive gratitude to hubs</strong><span>Lower but present</span></div><div class="bar"><div class="fill green" style="width:32%"></div></div></div>
+      <p class="small">Scoring is qualitative, based on retrieved high-engagement/relevance conversation samples rather than automated volume totals.</p>
+    </div>
+    <div class="card">
+      <h2>Key narrative split</h2>
+      <h3>Institutional narrative</h3>
+      <p>DOH and advocacy/hub communications emphasize that procurement is underway, delays were linked to supply-chain disruption, treatment remains available, and temporary rationing is meant to stretch stocks.</p>
+      <h3>Community narrative</h3>
+      <p>Patients and advocates focus on daily treatment continuity, fear of missed doses, questions about where to refill, skepticism toward “do not panic” messaging, and whether hub-level planning should have prevented two-week rationing.</p>
+      <div class="note-box"><strong>Implication:</strong> The gap is not only information. It is trust. Communications must prove control of the situation through specific operational steps, not broad assurances.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>What people are saying</h2>
+    <div class="grid cols3">
+      <div>
+        <span class="tag red">Fear and vulnerability</span>
+        <p class="quote">“I feel fear, I feel uncertain.”</p>
+        <p class="small">A PLHIV patient described worry after being offered an alternative combination because TLD was unavailable.</p>
+      </div>
+      <div>
+        <span class="tag amber">Service burden</span>
+        <p class="quote">“Clients from far-flung areas can’t afford to travel just to get their refill.”</p>
+        <p class="small">Criticism centers on the practical cost of shorter refill cycles, especially outside NCR.</p>
+      </div>
+      <div>
+        <span class="tag">Information gaps</span>
+        <p class="quote">“Can we transfer hub and what’s the process? Can we procure on our own?”</p>
+        <p class="small">Patients are asking for concrete routes, not just reassurance that stocks exist.</p>
+      </div>
+      <div>
+        <span class="tag amber">Accountability</span>
+        <p class="quote">“Patients deserve accountability, not excuses.”</p>
+        <p class="small">Some posts call for a legislative inquiry and scrutiny of procurement/OHAT use.</p>
+      </div>
+      <div>
+        <span class="tag teal">Reassurance</span>
+        <p class="quote">“Do not panic. Treatment is available.”</p>
+        <p class="small">Hub/advocacy communications emphasize temporary measures and continued support.</p>
+      </div>
+      <div>
+        <span class="tag green">Positive hub experience</span>
+        <p class="quote">“Thank you for continuing to provide ARVs despite the DOH shortage.”</p>
+        <p class="small">Some patients recognize hub-level continuity efforts where refills remain available.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Issue timeline from retrieved coverage</h2>
+    <div class="timeline">
+      <div class="titem"><strong>July 2, 2026:</strong> LoveYourself advisory says ARV refills will be temporarily limited to a two-week supply because of delays in DOH national supply-chain replenishment. Xpress refills are suspended except for clients based abroad.</div>
+      <div class="titem"><strong>July 3, 2026:</strong> Hub and advocacy pages push “do not panic / treatment is available” messaging and direct people with no hub stock to Embrace Virtual Hub for assistance.</div>
+      <div class="titem"><strong>July 3-6, 2026:</strong> News outlets report DOH procurement of approximately 1.16-1.2M bottles of TLD/ARV medicines, with delivery delays tied to supplier/logistics disruption.</div>
+      <div class="titem"><strong>July 4-8, 2026:</strong> Social conversation intensifies around accountability, hub-level planning, provincial burden, potential transfers, private procurement questions, and personal fear of treatment disruption.</div>
+      <div class="titem"><strong>July 9, 2026:</strong> Conversation starts to include updates that a partial TLD shipment has arrived, but skepticism and operational questions remain.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>High-impact conversation examples</h2>
+    <table>
+      <thead><tr><th>Source / platform</th><th>Conversation signal</th><th>Engagement / reach</th><th>Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td>Philippine Star / Facebook</td><td>DOH procured 1.2M bottles of ARV medicines amid shortage.</td><td>8,047 engagement; 11.35M reach</td><td>Mass-media post drove broad public awareness and likely set the mainstream frame.</td></tr>
+        <tr><td>Patient/advocate / X</td><td>Frustration over refill limits and possible reduction from two weeks to seven days.</td><td>219 engagement; 121,877 views</td><td>Highly resonant because it translates policy into immediate patient fear.</td></tr>
+        <tr><td>Patient / X</td><td>Personal account of fear after no TLD availability and alternative regimen suggestion.</td><td>207 engagement; 27,305+ views</td><td>Strong emotional proof point; increases urgency and reputational stakes.</td></tr>
+        <tr><td>LoveYourself / X</td><td>“Walang stock ng ARV sa hub mo?” directs patients to Embrace Virtual Hub.</td><td>111 engagement; 57,304 reach</td><td>Useful tactical support message, but needs clearer operating details and eligibility.</td></tr>
+        <tr><td>LoveYourself / X</td><td>“Do not panic. Treatment is available.”</td><td>98 engagement; 57,295 reach</td><td>Reassurance helps but may backfire without specificity on stock, refill quantities, and delivery dates.</td></tr>
+        <tr><td>Hontiveros coverage / news</td><td>Calls for DOH action, PhilHealth OHAT processing, transparent updates, inventory monitoring, and inter-hub redistribution.</td><td>Major news reach: Inquirer, Manila Standard, Manila Bulletin, others</td><td>Elevates issue to policy accountability and public-health governance.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="grid cols3">
+    <div class="card risk">
+      <h2>Risk 1: Trust erosion</h2>
+      <p>Patients perceive a gap between public reassurance and actual refill experiences. “Treatment is available” is being tested against reports of rationing, alternative regimens, and inconsistent hub-level information.</p>
+    </div>
+    <div class="card risk">
+      <h2>Risk 2: Access inequity</h2>
+      <p>Shorter refill cycles impose disproportionate costs on provincial clients, people with limited mobility, and those who cannot repeatedly travel to treatment hubs.</p>
+    </div>
+    <div class="card risk">
+      <h2>Risk 3: Political escalation</h2>
+      <p>Calls for accountability, OHAT scrutiny, and legislative inquiry can keep the issue alive even after shipments arrive unless the supply recovery is transparent and measurable.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Recommendations</h2>
+    <table>
+      <thead><tr><th>Priority</th><th>Action</th><th>Why it matters</th><th>Owner / cadence</th></tr></thead>
+      <tbody>
+        <tr><td><span class="priority p1">Immediate</span></td><td>Publish a single, frequently updated ARV supply status page or pinned post.</td><td>Centralizes truth: shipment status, affected regimens, refill limits, hub availability, and last-updated timestamp.</td><td>DOH + hubs; update daily until supply normalizes.</td></tr>
+        <tr><td><span class="priority p1">Immediate</span></td><td>Create a patient decision tree: “What to do if my hub has no stock.”</td><td>Answers the highest-anxiety questions: where to go, who to message, what information to provide, what to do before meds run out.</td><td>Hubs/advocacy groups; publish in English and Filipino.</td></tr>
+        <tr><td><span class="priority p1">Immediate</span></td><td>Clarify refill quantity rules by hub type and location.</td><td>Reduces confusion around two-week vs seven-day vs one-bottle experiences; prevents rumor spread.</td><td>DOH + treatment hubs; update as stock changes.</td></tr>
+        <tr><td><span class="priority p2">High</span></td><td>Activate inter-hub redistribution messaging and escalation protocol.</td><td>Conversation already asks whether some hubs have supply while others do not. Show how redistribution is happening.</td><td>DOH supply team + hubs; weekly public summary.</td></tr>
+        <tr><td><span class="priority p2">High</span></td><td>Separate crisis response from brand/event content.</td><td>Patients criticize “optics” when service continuity feels weak. During shortage, prioritize treatment access content over promotional posts.</td><td>Hub comms teams; immediate editorial adjustment.</td></tr>
+        <tr><td><span class="priority p2">High</span></td><td>Use empathetic, patient-first language before operational details.</td><td>Posts show fear and stigma fatigue. Acknowledge anxiety and avoid sounding dismissive with “do not panic” alone.</td><td>All spokespersons; message guide within 24 hours.</td></tr>
+        <tr><td><span class="priority p3">Next</span></td><td>Publish a post-crisis procurement and buffer-stock explainer.</td><td>Accountability questions will continue. Explain procurement timelines, OHAT role, buffer-stock policy, and preventive changes.</td><td>DOH/PhilHealth/hubs; after immediate stabilization.</td></tr>
+        <tr><td><span class="priority p3">Next</span></td><td>Build a dashboard for early-warning signals.</td><td>Monitor spikes in “no stock,” “refill,” “TLD,” “RITM,” hub names, and location-specific complaints to detect emerging stockouts.</td><td>Comms + operations; daily listening review.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="grid cols2">
+    <div class="card rec">
+      <h2>Suggested holding statement</h2>
+      <p>“We understand the fear caused by any uncertainty around ARV access. ARV treatment must remain continuous, and our priority is to ensure no patient is left without medication. We are publishing daily updates on shipment status, available refill options, affected hubs, and emergency assistance channels. Patients whose supply will run out within the next [X] days should contact [channel] with their hub, regimen, remaining pills, location, and contact number so we can route them to available supply or delivery support.”</p>
+    </div>
+    <div class="card rec">
+      <h2>Suggested social response themes</h2>
+      <p><span class="tag teal">Acknowledge fear</span><span class="tag teal">State exact action</span><span class="tag teal">Give escalation route</span><span class="tag teal">Avoid blame-shifting</span></p>
+      <ul>
+        <li>“Here is what to do before your supply runs out.”</li>
+        <li>“Here are the hubs/contacts that can help today.”</li>
+        <li>“Here is what changed since yesterday’s update.”</li>
+        <li>“Here is how provincial clients can avoid repeated travel.”</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Method note:</strong> This report is based on retrieved documents from the Meltwater saved search “ARV,” including high-engagement social posts and relevance-ranked news/social items from July 3-9, 2026. Metrics shown are from sampled retrieved items, not a comprehensive volume audit. Sensitive health-related social content is paraphrased or excerpted minimally for analysis.</p>
+  </footer>
+</div>
+</body>
+</html>
